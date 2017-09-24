@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{title}}</title>
+		<style>.-original-content { display: none; }</style>
+	</head>
+	<body>
+		<div id="page-content">
+			{{component}}
+		</div>
+		<script src="node_modules/zino/zino-light.js"></script>
+		<script src="public/bundle.js"></script>
+		<script>
+			window.__INITIAL_STATE__ = {{storeState}};
+			document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>');
+			Zino.import("{{path}}");
+		</script>
+	</body>
+</html>
