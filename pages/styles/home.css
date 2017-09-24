@@ -1,0 +1,10 @@
+$brandColor: #369;
+
+.home {
+	padding: 1em 2em;
+
+	h1 {
+		font-family: sans-serif;
+		color: $brandColor;
+	}
+}

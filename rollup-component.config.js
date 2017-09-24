@@ -13,9 +13,9 @@ import cssnext from 'postcss-cssnext';
 import cssnano from 'cssnano';
 
 let defaultConfig = {
-	input: 'components/home.js',
+	input: 'pages/home.js',
 	output: {
-			file: 'public/components/home.js',
+			file: 'public/pages/home.js',
 			format: 'iife'
 	},
 	name: '__resultComponent',
@@ -23,13 +23,13 @@ let defaultConfig = {
 	footer: `\treturn __resultComponent;\n\t}\n}(typeof module !== 'undefined' ? module : {}));`
 };
 
-let config = fs.readdirSync('components').
-	filter(file => file[0] !== '.' && !fs.statSync('components/' + file).isDirectory() && file.endsWith('.js')).
+let config = fs.readdirSync('pages').
+	filter(file => file[0] !== '.' && !fs.statSync('pages/' + file).isDirectory() && file.endsWith('.js')).
 	map(file => {
 		return Object.assign({}, defaultConfig, {
-			input: 'components/' + file,
+			input: 'pages/' + file,
 			output: {
-				file: 'public/components/' + file,
+				file: 'public/pages/' + file,
 				format: 'iife'
 			},
 			plugins: [
@@ -43,7 +43,7 @@ let config = fs.readdirSync('components').
 					extensions: ['.css']
 				}),
 				eslint({
-					exclude: ['components/styles/**']
+					exclude: ['pages/styles/**']
 				}),
 				buble({
 					transforms: {

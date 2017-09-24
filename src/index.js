@@ -81,7 +81,7 @@ http.createServer(function (request, response) {
 				zino.trigger('__global-store:check-done');
 			});
 			// tell Zino to render the component with the route's data
-			let result = renderComponent(route.component, 'public/components/' + route.component, route.data);
+			let result = renderComponent(route.component, 'public/pages/' + route.component, route.data);
 
 			// as soon as the collector above got all the data, we get into our then()
 			result.then(componentHTML => {
@@ -89,7 +89,7 @@ http.createServer(function (request, response) {
 				let dataMatrix = {
 					title: route.title,
 					component: componentHTML,
-					path: '/public/components/' + route.component,
+					path: '/public/pages/' + route.component,
 					storeState: JSON.stringify(loadedData)
 				};
 				response.writeHead(200, {
