@@ -3,6 +3,7 @@ export default function Home(Tag, Zino) {
 	//Zino.import('my-sub-component.js');
 
 	return {
+		tagName: 'home',
 		render(data) {
 			return (
 				<div class="home">
