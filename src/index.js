@@ -7,6 +7,10 @@ import {zino, setCollector, renderComponent, setBasePath, setStaticBasePath} fro
 
 let port = process.argv[2] || 8888;
 let basePath = process.cwd();
+let isProd = ENV === 'production';
+
+const liveReload = "document.write('<script src=\"http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1\"></' + 'script>');";
+const htmlInspector = 'document.write("<script src=\"//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js\"></" + "script>);\nHTMLInspector.inspect({excludeElements: Object.keys(window.zinoTagRegistry)});';
 
 // prepare zino environment
 setBasePath(basePath);
@@ -90,7 +94,8 @@ http.createServer(function (request, response) {
 					title: route.title,
 					component: componentHTML,
 					path: '/public/pages/' + route.component,
-					storeState: JSON.stringify(loadedData)
+					storeState: JSON.stringify(loadedData),
+					devTools: isProd ? '' : [liveReload, htmlInspector].join('\n')
 				};
 				response.writeHead(200, {
 					'Content-Type': 'text/html'

@@ -12,7 +12,8 @@
     "watch:server": "chokidar 'src/**/*.js' -c 'rollup -c'",
     "start:server": "node index.js",
     "livereload": "livereload",
-    "start": "rollup -c && npm run build:components && npm-run-all -p watch:components watch:server start:server livereload"
+    "start": "rollup -c && npm run build:components && npm-run-all -p watch:components watch:server start:server livereload",
+    "build": "NODE_ENV=production rollup -c && npm run build:components"
   },
   "dependencies": {
     "chokidar-cli": "^1.2.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "cssnano": "^3.10.0",
+    "now-promise": "^0.0.3",
     "postcss-cssnext": "^3.0.2",
     "postcss-nested": "^2.1.2",
     "postcss-simple-vars": "^4.1.0",

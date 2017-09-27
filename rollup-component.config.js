@@ -16,7 +16,8 @@ let defaultConfig = {
 	input: 'pages/home.js',
 	output: {
 			file: 'public/pages/home.js',
-			format: 'iife'
+			format: 'iife',
+			sourcemap: 'inline'
 	},
 	name: '__resultComponent',
 	banner: `(function (module) {\n\treturn module.exports = function() {`,
@@ -30,7 +31,8 @@ let config = fs.readdirSync('pages').
 			input: 'pages/' + file,
 			output: {
 				file: 'public/pages/' + file,
-				format: 'iife'
+				format: 'iife',
+				sourcemap: 'inline'
 			},
 			plugins: [
 				postcss({

@@ -6,6 +6,9 @@
         "node": true
     },
     "extends": "eslint:recommended",
+    "globals": {
+        "ENV": true
+    },
     "parserOptions": {
         "sourceType": "module",
         "ecmaFeatures": {
