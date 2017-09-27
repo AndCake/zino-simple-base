@@ -1,3 +1,5 @@
+import './styles/home.css';
+
 /* please notice that these two parameters should always be there */
 export default function Home(Tag, Zino) {
 	//Zino.import('my-sub-component.js');

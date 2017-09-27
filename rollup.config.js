@@ -1,5 +1,6 @@
 import buble from 'rollup-plugin-buble';
 import eslint from 'rollup-plugin-eslint';
+import json from 'rollup-plugin-json';
 
 export default {
         input: 'src/index.js',
@@ -13,6 +14,7 @@ export default {
                 eslint({
                         exclude: []
                 }),
+                json(),
                 buble({
                         exclude: 'node_modules/**'
                 })

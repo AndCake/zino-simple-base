@@ -3,6 +3,7 @@ import eslint from 'rollup-plugin-eslint';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
+import json from 'rollup-plugin-json';
 
 import fs from 'fs';
 
@@ -47,6 +48,7 @@ let config = fs.readdirSync('pages').
 				eslint({
 					exclude: ['pages/styles/**']
 				}),
+				json(),
 				buble({
 					transforms: {
 						dangerousTaggedTemplateString: true

@@ -9,8 +9,9 @@ let port = process.argv[2] || 8888;
 let basePath = process.cwd();
 let isProd = ENV === 'production';
 
-const liveReload = "document.write('<script src=\"http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1\"></' + 'script>');";
-const htmlInspector = 'document.write("<script src=\"//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js\"></" + "script>);\nHTMLInspector.inspect({excludeElements: Object.keys(window.zinoTagRegistry)});';
+const scriptLoader = 'function loadScript(url, cb) {var script = document.createElement(\'script\');script.src = url;script.onload = cb;document.body.appendChild(script);}';
+const liveReload = 'loadScript("http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js?snipver=1");';
+const htmlInspector = 'loadScript("//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js", function (){\n\tHTMLInspector.inspect({excludeElements: Object.keys(window.zinoTagRegistry).map(function(e){return e.split("/").pop();})});\n});';
 
 // prepare zino environment
 setBasePath(basePath);
@@ -77,12 +78,16 @@ http.createServer(function (request, response) {
 
 			// set our asynchronous render handling
 			setCollector(function(next) {
-				// wait for our data to be finished loading
-				zino.on('__global-store:data-loaded', (data) => {
-					loadedData = data;
+				if (global.__INITIAL_STATE__) {
+					// wait for our data to be finished loading
+					zino.on('__global-store:data-loaded', (data) => {
+						loadedData = data;
+						next();
+					});
+					zino.trigger('__global-store:check-done');
+				} else {
 					next();
-				});
-				zino.trigger('__global-store:check-done');
+				}
 			});
 			// tell Zino to render the component with the route's data
 			let result = renderComponent(route.component, 'public/pages/' + route.component, route.data);
@@ -95,7 +100,7 @@ http.createServer(function (request, response) {
 					component: componentHTML,
 					path: '/public/pages/' + route.component,
 					storeState: JSON.stringify(loadedData),
-					devTools: isProd ? '' : [liveReload, htmlInspector].join('\n')
+					devTools: isProd ? '' : [scriptLoader, liveReload, htmlInspector].join('\n')
 				};
 				response.writeHead(200, {
 					'Content-Type': 'text/html'
@@ -150,4 +155,4 @@ http.createServer(function (request, response) {
 	});
 }).listen(parseInt(port, 10));
 
-process.stdout.write('Simple server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown');
+process.stdout.write('Simple server running at\n  => http://localhost:' + port + '/\nCTRL + C to shutdown');
