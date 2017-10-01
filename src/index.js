@@ -97,7 +97,8 @@ http.createServer(function (request, response) {
 				// prepare our data for template rendering
 				let dataMatrix = {
 					title: route.title,
-					component: componentHTML,
+					component: componentHTML.components + componentHTML.preloader,
+					head: componentHTML.styles,
 					path: '/public/pages/' + route.component,
 					storeState: JSON.stringify(loadedData),
 					devTools: isProd ? '' : [scriptLoader, liveReload, htmlInspector].join('\n')
