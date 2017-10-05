@@ -12,7 +12,7 @@ export default {
         external: ['http', 'path', 'url', 'fs', 'zino/zino-ssr', 'immu', 'now-promise'],
         plugins: [
                 eslint({
-                        exclude: []
+                        exclude: ['**/*.json']
                 }),
                 json(),
                 buble({

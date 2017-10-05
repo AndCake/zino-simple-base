@@ -11,7 +11,7 @@ let isProd = ENV === 'production';
 
 const scriptLoader = 'function loadScript(url, cb) {var script = document.createElement(\'script\');script.src = url;script.onload = cb;document.body.appendChild(script);}';
 const liveReload = 'loadScript("http://" + (location.host || "localhost").split(":")[0] + ":35729/livereload.js?snipver=1");';
-const htmlInspector = 'loadScript("//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js", function (){\n\tHTMLInspector.inspect({excludeElements: Object.keys(window.zinoTagRegistry).map(function(e){return e.split("/").pop();})});\n});';
+const htmlInspector = 'loadScript("//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js", function (){\n\tHTMLInspector.inspect({excludeElements: Object.keys(window.zinoTagRegistry).map(function(e){return e.split("/").pop().replace(/\\.js$/, "");})});\n});';
 
 // prepare zino environment
 setBasePath(basePath);
@@ -90,16 +90,17 @@ http.createServer(function (request, response) {
 				}
 			});
 			// tell Zino to render the component with the route's data
-			let result = renderComponent(route.component, 'public/pages/' + route.component, route.data);
+			const path = route.path || 'public/pages/';
+			let result = renderComponent(route.component, path + route.component + '.js', route.data);
 
 			// as soon as the collector above got all the data, we get into our then()
 			result.then(componentHTML => {
 				// prepare our data for template rendering
 				let dataMatrix = {
 					title: route.title,
-					component: componentHTML.components + componentHTML.preloader,
+					component: componentHTML.body + componentHTML.preloader,
 					head: componentHTML.styles,
-					path: '/public/pages/' + route.component,
+					path: '/' + path + route.component + '.js',
 					storeState: JSON.stringify(loadedData),
 					devTools: isProd ? '' : [scriptLoader, liveReload, htmlInspector].join('\n')
 				};

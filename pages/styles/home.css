@@ -1,10 +1,15 @@
-$brandColor: #369;
+$brandColor: #693;
 
-.home {
+body {
+	margin: 0;
+	font-family: sans-serif;
+}
+
+home {
+	display: block;
 	padding: 1em 2em;
 
 	h1 {
-		font-family: sans-serif;
 		color: $brandColor;
 	}
 }

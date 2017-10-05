@@ -28,6 +28,16 @@
             "error",
             "single"
         ],
+        "jsx-quotes": [
+            "error",
+            "prefer-double"
+        ],
+        "no-unused-vars": [
+            "error",
+            {
+                "varsIgnorePattern": "Tag|Zino"
+            }
+        ],
         "semi": [
             "error",
             "always"
