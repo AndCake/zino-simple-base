@@ -91,7 +91,17 @@ http.createServer(function (request, response) {
 			});
 			// tell Zino to render the component with the route's data
 			const path = route.path || 'public/pages/';
-			let result = renderComponent(route.component, path + route.component + '.js', route.data);
+			let result;
+			try {
+				result = renderComponent(route.component, path + route.component + '.js', route.data);
+			} catch (e) {
+				response.writeHead(500, {
+					'Content-Type': 'text/html'
+				});
+				response.write('<h1>500 Internal Server Error</h1><pre>' + e.message + '</pre><p>Reloading in 2s...</p><script>setTimeout(function(){location.reload();}, 2000);</script>');
+				response.end();
+				return;
+			}
 
 			// as soon as the collector above got all the data, we get into our then()
 			result.then(componentHTML => {
@@ -99,6 +109,7 @@ http.createServer(function (request, response) {
 				let dataMatrix = {
 					title: route.title,
 					component: componentHTML.body + componentHTML.preloader,
+					componentProps: 'document.getElementsByTagName("' + route.component + '")[0].props = ' + JSON.stringify(route.data) + ';',
 					head: componentHTML.styles,
 					path: '/' + path + route.component + '.js',
 					storeState: JSON.stringify(loadedData),

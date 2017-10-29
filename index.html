@@ -9,11 +9,11 @@
 		<div id="page-content">
 			{{component}}
 		</div>
-		<script src="node_modules/zino/zino-light.js"></script>
-		<script src="public/bundle.js"></script>
+		<script src="/node_modules/zino/zino-light.js"></script>
 		<script>
 			window.__INITIAL_STATE__ = {{storeState}};
 			{{devTools}}
+			{{componentProps}}
 			Zino.import("{{path}}");
 		</script>
 	</body>

@@ -30,7 +30,9 @@ let components = [];
 
 let config = glob.sync('pages/**/*.js').
 	map(file => {
-		components.push(file);
+		if (file.split('/').length > 2) {
+			components.push(file);
+		}
 		return Object.assign({}, defaultConfig, {
 			input: file,
 			output: {
