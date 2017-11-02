@@ -14,7 +14,9 @@
 			window.__INITIAL_STATE__ = {{storeState}};
 			{{devTools}}
 			{{componentProps}}
-			Zino.import("{{path}}");
+			Zino.import("{{path}}", function() {
+				document.querySelector("{{name}}").setProps('__random__', Math.random());
+			});
 		</script>
 	</body>
 </html>

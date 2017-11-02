@@ -22,7 +22,7 @@ let defaultConfig = {
 			sourcemap: 'inline'
 	},
 	name: '__resultComponent',
-	banner: `(function (module) {\n\treturn module.exports = function() {`,
+	banner: `(function (module) {\n\treturn module.exports = function() {\n\t\tvar ENV = ${JSON.stringify(process.env.NODE_ENV || 'development')};`,
 	footer: `\treturn __resultComponent;\n\t}\n}(typeof module !== 'undefined' ? module : {}));`
 };
 

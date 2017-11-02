@@ -14,8 +14,8 @@ const liveReload = 'loadScript("http://" + (location.host || "localhost").split(
 const htmlInspector = 'loadScript("//cdnjs.cloudflare.com/ajax/libs/html-inspector/0.8.2/html-inspector.js", function (){\n\tHTMLInspector.inspect({excludeElements: Object.keys(window.zinoTagRegistry).map(function(e){return e.split("/").pop().replace(/\\.js$/, "");})});\n});';
 
 // prepare zino environment
-setBasePath(basePath);
-setStaticBasePath('/');
+setBasePath(basePath + '/public/pages');
+setStaticBasePath('/public/pages/');
 
 http.createServer(function (request, response) {
 	let uri = url.parse(request.url).pathname,
@@ -58,7 +58,7 @@ http.createServer(function (request, response) {
 	// react to our defined routes
 	if ((route = router.route(uri))) {
 		// the index.html provides the base structure for our page
-		fs.readFile('./index.html', 'utf-8', (err, data) => {
+		fs.readFile('./index.html', 'utf-8', (err, pageSource) => {
 			if (err) {
 				// if we cannot find it, bail out!
 				response.writeHead(500, {
@@ -90,7 +90,7 @@ http.createServer(function (request, response) {
 				}
 			});
 			// tell Zino to render the component with the route's data
-			const path = route.path || 'public/pages/';
+			const path = route.path || './';
 			let result;
 			try {
 				result = renderComponent(route.component, path + route.component + '.js', route.data);
@@ -111,7 +111,8 @@ http.createServer(function (request, response) {
 					component: componentHTML.body + componentHTML.preloader,
 					componentProps: 'document.getElementsByTagName("' + route.component + '")[0].props = ' + JSON.stringify(route.data) + ';',
 					head: componentHTML.styles,
-					path: '/' + path + route.component + '.js',
+					name: route.component,
+					path: '/public/pages/' + path + route.component + '.js',
 					storeState: JSON.stringify(loadedData),
 					devTools: isProd ? '' : [scriptLoader, liveReload, htmlInspector].join('\n')
 				};
@@ -119,7 +120,7 @@ http.createServer(function (request, response) {
 					'Content-Type': 'text/html'
 				});
 				// render the final page
-				response.write(data.replace(/\{\{(.*?)\}\}/g, (g, m) => dataMatrix[m]));
+				response.write(pageSource.replace(/\{\{(.*?)\}\}/g, (g, m) => dataMatrix[m]));
 				response.end();
 			}).catch(error => {
 				// if the component could not be rendered correctly bail out
