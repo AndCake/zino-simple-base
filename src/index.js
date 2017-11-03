@@ -127,7 +127,8 @@ http.createServer(function (request, response) {
 				response.writeHead(500, {
 					'Content-Type': 'text/plain'
 				});
-				response.end('500 - unable to render page: ' + error);
+				response.write('<h1>500 Internal Server Error</h1><pre>' + error + '</pre><p>Reloading in 2s...</p><script>setTimeout(function(){location.reload();}, 2000);</script>');
+				response.end();
 			});
 		});
 		return;
