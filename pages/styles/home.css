@@ -1,4 +1,4 @@
-$brandColor: #693;
+@import './lib/colors.css';
 
 body {
 	margin: 0;
@@ -8,8 +8,9 @@ body {
 home {
 	display: block;
 	padding: 1em 2em;
+	background: $c-default-background;
 
 	h1 {
-		color: $brandColor;
+		color: $c-brand;
 	}
 }

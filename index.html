@@ -2,7 +2,13 @@
 <html>
 	<head>
 		<title>{{title}}</title>
-		<style>body { margin: 0; } .-original-content { display: none; } .-shadow-root { display: block; }</style>
+		<style>
+			body { margin: 0; }
+			.-original-content { display: none; }
+			.-shadow-root { display: block; }
+			#page-content>* { opacity: 0; transition: opacity 250ms ease-out; }
+			#page-content>*[__ready] { opacity: 1; }
+		</style>
 		{{head}}
 	</head>
 	<body>
