@@ -11,7 +11,7 @@
     "watch:components": "chokidar 'pages/**/*.(css|js)' -c 'npm run build:components'",
     "watch:server": "chokidar 'src/**/*.js' -c 'rollup -c'",
     "start:server": "node index.js",
-    "livereload": "livereload",
+    "livereload": "livereload -x 'node_modules'",
     "start": "rollup -c && npm run build:components && npm-run-all -p watch:components watch:server start:server livereload",
     "build": "NODE_ENV=production rollup -c && NODE_ENV=production npm run build:components"
   },
