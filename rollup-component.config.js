@@ -12,6 +12,7 @@ import simplevars from 'postcss-simple-vars';
 import url from 'postcss-url';
 import nested from 'postcss-nested';
 import cssnext from 'postcss-cssnext';
+import atImport from 'postcss-import';
 import cssnano from 'cssnano';
 
 let defaultConfig = {
@@ -19,7 +20,7 @@ let defaultConfig = {
 	output: {
 			file: 'public/pages/home.js',
 			format: 'iife',
-			sourcemap: 'inline'
+			sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline'
 	},
 	name: '__resultComponent',
 	banner: `(function (module) {\n\treturn module.exports = function() {\n\t\tvar ENV = ${JSON.stringify(process.env.NODE_ENV || 'development')};`,
@@ -46,6 +47,7 @@ let config = glob.sync('pages/**/*.js').
 				}),
 				postcss({
 					plugins: [
+						atImport(),
 						simplevars(),
 						nested(),
 						cssnext({warnForDuplicates: false}),
@@ -72,6 +74,9 @@ let config = glob.sync('pages/**/*.js').
 		});
 	});
 
+if (!fs.existsSync('public')) {
+	fs.mkdirSync('public');
+}
 if (process.env.NODE_ENV !== 'production') {
 	fs.writeFileSync('public/styleguide.json', JSON.stringify(components));
 }

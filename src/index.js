@@ -98,7 +98,7 @@ http.createServer(function (request, response) {
 				response.writeHead(500, {
 					'Content-Type': 'text/html'
 				});
-				response.write('<h1>500 Internal Server Error</h1><pre>' + e.message + '</pre><p>Reloading in 2s...</p><script>setTimeout(function(){location.reload();}, 2000);</script>');
+				response.write('<h1>500 Internal Server Error</h1><p>Error during initial component rendering:</p><pre>' + e.name + ': ' + e.message + '</pre><p>Reloading in 5s...</p><script>setTimeout(function(){location.reload();}, 5000);</script>');
 				response.end();
 				return;
 			}
@@ -127,7 +127,7 @@ http.createServer(function (request, response) {
 				response.writeHead(500, {
 					'Content-Type': 'text/html'
 				});
-				response.write('<h1>500 Internal Server Error</h1><pre>' + error + '</pre><p>Reloading in 2s...</p><script>setTimeout(function(){location.reload();}, 2000);</script>');
+				response.write('<h1>500 Internal Server Error</h1><pre>' + error + '</pre><p>Reloading in 5s...</p><script>setTimeout(function(){location.reload();}, 5000);</script>');
 				response.end();
 			});
 		});
