@@ -125,7 +125,7 @@ http.createServer(function (request, response) {
 			}).catch(error => {
 				// if the component could not be rendered correctly bail out
 				response.writeHead(500, {
-					'Content-Type': 'text/plain'
+					'Content-Type': 'text/html'
 				});
 				response.write('<h1>500 Internal Server Error</h1><pre>' + error + '</pre><p>Reloading in 2s...</p><script>setTimeout(function(){location.reload();}, 2000);</script>');
 				response.end();
