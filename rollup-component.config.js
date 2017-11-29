@@ -62,7 +62,7 @@ let config = glob.sync('pages/**/*.js').
 						dangerousTaggedTemplateString: true
 					},
 					exclude: 'node_modules/**',
-					jsx: 'Tag'
+					jsx: 'this.createNode'
 				}),
 				resolve({
 					jsnext: true
