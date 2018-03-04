@@ -1,6 +1,7 @@
 import buble from 'rollup-plugin-buble';
 import eslint from 'rollup-plugin-eslint';
 import resolve from 'rollup-plugin-node-resolve';
+import replace from 'rollup-plugin-re';
 import commonjs from 'rollup-plugin-commonjs';
 import postcss from 'rollup-plugin-postcss';
 import json from 'rollup-plugin-json';
@@ -55,6 +56,14 @@ let config = glob.sync('pages/**/*.js').
 						cssnano()
 					],
 					extensions: ['.css']
+				}),
+				replace({
+					exclude: 'node_modules/**',
+					patterns: [{
+						transform(code, id) {
+							return id.indexOf('.css') >= 0 ? code.replace(/^__\$styleInject/, 'export default (code => code)').replace(/export default undefined/, '') : code;
+						}
+					}]
 				}),
 				json(),
 				buble({
